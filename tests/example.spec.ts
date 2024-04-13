@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { githubAccessToken, githubUserName, githubUserEmail } from '../config/envs';
 import { screenshotsPath, appRepoName } from '../settings/testSettings';
 import { simpleGit, SimpleGit, StatusResult  } from 'simple-git';
 
@@ -8,11 +7,13 @@ test.describe('simple-git test', async () => {
   test.afterAll(async () => {
     const git: SimpleGit = simpleGit();
     const status: StatusResult = await git.status()
-    const gitHubUrl = `https://${githubAccessToken ?? process.env.githubAccessToken}@github.com/mcsymiv/${appRepoName}.git`;
+    const gitHubUrl = `https://${process.env.githubAccessToken}@github.com/mcsymiv/${appRepoName}.git`;
 
     try {
-      await git.addConfig('user.email', githubUserEmail ?? process.env.githubUserEmail);
-      await git.addConfig('user.name', githubUserName ?? process.env.githubUserName);
+      //@ts-ignore
+      await git.addConfig('user.email', process.env.githubUserEmail);
+      //@ts-ignore
+      await git.addConfig('user.name', process.env.githubUserName);
 
       await git.addRemote('origin', gitHubUrl);
 
