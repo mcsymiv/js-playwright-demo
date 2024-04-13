@@ -1,20 +1,27 @@
 import { test, expect } from '@playwright/test';
 import { screenshotsPath } from '../settings/testSettings';
+import { simpleGit, SimpleGit, CleanOptions, StatusResult  } from 'simple-git';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test.describe('simple-git test', async () => {
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
+  test.afterAll(async () => {
+    const git: SimpleGit = simpleGit().clean(CleanOptions.FORCE);
+    const status: StatusResult = await git.status()
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+    console.log(status.modified);
+  });
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
+  test('get started link', async ({ page }) => {
+    await page.goto('https://playwright.dev/');
 
-  await page.screenshot({ path: screenshotsPath, fullPage: true });
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
-});
+    // Click the get started link.
+    await page.getByRole('link', { name: 'Get started' }).click();
+
+    await page.screenshot({ path: screenshotsPath, fullPage: false });
+
+    // Expects page to have a heading with the name of Installation.
+    await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  });
+
+})
+
