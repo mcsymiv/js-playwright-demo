@@ -15,9 +15,10 @@ test.describe('simple-git test', async () => {
       //@ts-ignore
       await git.addConfig('user.name', process.env.githubUserName);
 
+
       await git.add(status.modified);
       await git.commit('simple-git commit message, add screenshots');
-      await git.push('origin', 'main');
+      await git.push(gitHubUrl, 'main');
 
     } catch (error) {
       console.log(error);
