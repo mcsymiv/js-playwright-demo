@@ -8,7 +8,7 @@
   "license": "ISC",
   "description": "",
   "scripts": {
-    "ci": "npx playwright test tests/ci.spec.ts"
+    "ci": "npx playwright test tests/example.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.43.1",
