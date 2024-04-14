@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { githubAccessToken  } from '../config/envs';
 import { screenshotsPath, appRepoName } from '../settings/testSettings';
 import { simpleGit, SimpleGit, StatusResult  } from 'simple-git';
 
@@ -8,13 +7,16 @@ test.describe('simple-git test', async () => {
   test.afterAll(async () => {
     const git: SimpleGit = simpleGit();
     const status: StatusResult = await git.status()
-    const gitHubUrl = `https://${githubAccessToken}@github.com/mcsymiv/${appRepoName}.git`;
+    const gitHubUrl = `https://${process.env.githubAccessToken}@github.com/mcsymiv/${appRepoName}.git`;
 
     try {
-      // await git.addConfig('user.email','s.mcsymiv@gmail.com');
-      // await git.addConfig('user.name','mcsymiv');
+      //@ts-ignore
+      await git.addConfig('user.email', process.env.githubUserEmail);
+      //@ts-ignore
+      await git.addConfig('user.name', process.env.githubUserName);
 
-      // await git.addRemote('origin', gitHubUrl);
+      await git.remote(['set-url', 'origin', gitHubUrl])
+
 
       await git.add(status.modified);
       await git.commit('simple-git commit message, add screenshots');
@@ -32,7 +34,7 @@ test.describe('simple-git test', async () => {
     // Click the get started link.
     await page.getByRole('link', { name: 'Get started' }).click();
 
-    await page.screenshot({ path: screenshotsPath, fullPage: true });
+    await page.screenshot({ path: screenshotsPath, fullPage: false });
 
     // Expects page to have a heading with the name of Installation.
     await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
