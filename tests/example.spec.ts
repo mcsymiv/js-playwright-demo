@@ -17,7 +17,6 @@ test.describe('simple-git test', async () => {
 
       await git.remote(['set-url', 'origin', gitHubUrl])
 
-
       await git.add(status.modified);
       await git.commit('simple-git, add screenshots');
       await git.push('origin', 'main');
@@ -34,7 +33,7 @@ test.describe('simple-git test', async () => {
     // Click the get started link.
     await page.getByRole('link', { name: 'Get started' }).click();
 
-    await page.screenshot({ path: screenshotsPath });
+    await page.screenshot({ path: screenshotsPath, fullPage: true });
 
     // Expects page to have a heading with the name of Installation.
     await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
