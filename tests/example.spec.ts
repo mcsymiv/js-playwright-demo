@@ -15,7 +15,7 @@ test.describe('simple-git test', async () => {
       //@ts-ignore
       await git.addConfig('user.name', process.env.githubUserName);
 
-      await git.addRemote('origin', gitHubUrl)
+      await git.remote(['set-url', 'origin', gitHubUrl])
 
 
       await git.add(status.modified);
