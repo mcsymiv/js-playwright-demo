@@ -19,7 +19,7 @@ test.describe('simple-git test', async () => {
 
 
       await git.add(status.modified);
-      await git.commit('simple-git commit message, add screenshots');
+      await git.commit('simple-git, add screenshots');
       await git.push('origin', 'main');
 
     } catch (error) {
@@ -34,7 +34,7 @@ test.describe('simple-git test', async () => {
     // Click the get started link.
     await page.getByRole('link', { name: 'Get started' }).click();
 
-    await page.screenshot({ path: screenshotsPath, fullPage: false });
+    await page.screenshot({ path: screenshotsPath });
 
     // Expects page to have a heading with the name of Installation.
     await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
